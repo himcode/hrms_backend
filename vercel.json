@@ -1,4 +1,5 @@
 {
+  "buildCommand": "bash build_files.sh",
   "builds": [
     {
       "src": "wsgi_handler.py",
@@ -14,5 +15,8 @@
       "src": "/(.*)",
       "dest": "wsgi_handler.py"
     }
-  ]
+  ],
+  "env": {
+    "DJANGO_SETTINGS_MODULE": "api.settings"
+  }
 }
