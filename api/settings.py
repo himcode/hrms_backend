@@ -70,12 +70,6 @@ DATABASES = {
     }
 }
 
-print("PGHOST:", os.environ.get("PGHOST"))
-print("PGDATABASE:", os.environ.get("PGDATABASE"))
-print("PGUSER:", os.environ.get("PGUSER"))
-print("PGPASSWORD:", os.environ.get("PGPASSWORD"))
-print("PGPORT:", os.environ.get("PGPORT"))
-
 # Validate database configuration
 _db_config = DATABASES['default']
 _has_all_creds = _db_config['USER'] and _db_config['PASSWORD'] and _db_config['HOST'] and _db_config['NAME']
