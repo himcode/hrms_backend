@@ -63,9 +63,24 @@ _init()
 
 def handler(environ, start_response):
     if _error:
-        start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
-        return [_error.encode('utf-8')]
-    return _app(environ, start_response)
+        error_response = f"Failed to load Django:\n{_error}"
+        logger.error(f"Handler called with initialization error: {error_response}")
+        start_response('500 Internal Server Error', [
+            ('Content-Type', 'text/plain'),
+            ('X-Error-Info', 'Django initialization failed')
+        ])
+        return [error_response.encode('utf-8')]
+    
+    try:
+        return _app(environ, start_response)
+    except Exception as e:
+        error_msg = f"Error processing request: {traceback.format_exc()}"
+        logger.error(error_msg)
+        start_response('500 Internal Server Error', [
+            ('Content-Type', 'text/plain'),
+            ('X-Error-Info', 'Request processing failed')
+        ])
+        return [error_msg.encode('utf-8')]
 
 
 app = handler
